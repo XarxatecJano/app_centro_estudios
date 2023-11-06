@@ -1,20 +1,35 @@
 import Express from 'express';
 import path from 'path';
 import {fileURLToPath} from 'url';
+import { router } from './routes/router.js';
+import * as dotenv from 'dotenv';
+import cors from 'cors';
+import methodOverride from 'method-override';
 
 const app: Express.Application = Express();
-const PORT: number = 3000;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use(Express.static(path.join(__dirname, "..", "public")));
 app.use("/scripts", Express.static(path.join(__dirname, '..', 'build')));
 
-app.get("/", (req: Express.Request, res: Express.Response)=>{
-    res.send("<p>Hola Mundo!</p>");
-});
+app.use(cors());
 
-app.listen(PORT, ()=>{
-    console.log(`App is listening at port ${PORT}`);
+dotenv.config({ path: path.join(__dirname, "..", ".env") });
+
+app.use(Express.urlencoded({extended:false}));
+app.use(methodOverride((req: Express.Request, res: Express.Response)=>{
+    if (req.body && typeof req.body === 'object' && "_method" in req.body){
+        const method = req.body._method;
+        delete req.body._method;
+        return method;
+    }
+}));
+
+app.use("/", router);
+
+app.listen(process.env.PORT, ()=>{
+    console.log(`App is listening at port ${process.env.PORT}`);
+    console.log(`Me llamo ${process.env.NAME}`);
 });
 
