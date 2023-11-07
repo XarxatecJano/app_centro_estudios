@@ -34,3 +34,16 @@ export function findSchoolWithId(req: Express.Request, res: Express.Response){
     })
 
 }
+
+export function deleteSchoolWithId(req: Express.Request, res: Express.Response){
+
+    const queryString: string = `DELETE FROM School WHERE id = ${req.params.id} `;
+    db.query(queryString, (error, result)=>{
+        if(error){
+            res.send("No se pudo borrar el registro");
+        }
+        res.json(result);
+
+    })
+
+}

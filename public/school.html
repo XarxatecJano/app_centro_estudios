@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="scripts/findSchoolsForSelect.js" type="module" async></script>
+    <script src="scripts/changeActionRouteOnForm.js" type="module" async></script>
     <title>School CRUD</title>
 </head>
 <body>
-    <form action="/schools" method="POST">
+    <form action="/schools" method="POST" id="form1">
         <p>
             <label for="school_options">Nombre centro: </label>
             <select name="school" id="school_options">
@@ -15,7 +16,7 @@
             </select>
         </p>
         <p>
-            <input type="submit" value="Enviar">
+            <input type="submit" value="Borrar escuela">
         </p>
         <input type="hidden" name="_method" value="delete">
     </form>

@@ -9,6 +9,9 @@ export async function buildOptionsForSelect(){
     }
     document.querySelector("#school_options").innerHTML=options;
 }
+
+
+
 window.addEventListener('load', buildOptionsForSelect);
 
 
