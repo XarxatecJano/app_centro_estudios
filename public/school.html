@@ -8,17 +8,21 @@
 </head>
 <body>
     <h1>API</h1>
-    <form action="/schools" method="POST">
-        <p>
+    <form action="/api/v1/schools" method="POST">
+        <!--<p>
             <label for="school_options">Nombre centro: </label>
             <select name="school" id="school_options">
 
             </select>
+        </p>-->
+        <p>
+            <label for="schoolName">Nombre centro: </label>
+            <input type="text" name="name" id="schoolName">
         </p>
         <p>
             <input type="submit" value="Enviar">
         </p>
-        <input type="hidden" name="_method" value="delete">
+        <!--<input type="hidden" name="_method" value="delete">-->
     </form>
 
 </body>

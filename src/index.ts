@@ -30,6 +30,5 @@ app.use("/", router);
 
 app.listen(process.env.PORT, ()=>{
     console.log(`App is listening at port ${process.env.PORT}`);
-    console.log(`Me llamo ${process.env.NAME}`);
 });
 

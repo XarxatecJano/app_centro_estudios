@@ -1,17 +1,16 @@
 import Express from 'express';
-import { db } from '../config.js';
+import { saveSchool } from '../model/saveSchool.js';
 
-export function saveSchool(req: Express.Request, res: Express.Response):void{
-    const queryString: string = `INSERT INTO School(name) VALUES ("${req.body.name}")`;
-    db.query(queryString, (error, result)=>{
-        if(error){
-            res.send("No se pudo hacer el insert");
-        }
-        res.send("El insert se hizo con éxito");  
-    });
+
+export async function postSchool(req: Express.Request, res: Express.Response):Promise<any>{
+    const result:any = await saveSchool({name: req.body.name});
+    if (result) res.status(200).send("Insert completado con éxito")
+    else res.status(400).send("No se pudo hacer el insert");
+
+    
 }
-
-export function findSchools(req: Express.Request, res: Express.Response){
+/*
+export function getSchools(req: Express.Request, res: Express.Response){
     const queryString: string = "SELECT * from School";
     db.query(queryString, (error, result)=>{
         if(error){
@@ -22,7 +21,7 @@ export function findSchools(req: Express.Request, res: Express.Response){
     })
 }
 
-export function findSchoolWithId(req: Express.Request, res: Express.Response){
+export function getSchoolWithId(req: Express.Request, res: Express.Response){
 
     const queryString: string = `SELECT * from School WHERE id = ${req.params.id} `;
     db.query(queryString, (error, result)=>{
@@ -33,4 +32,4 @@ export function findSchoolWithId(req: Express.Request, res: Express.Response){
 
     })
 
-}
+}*/
