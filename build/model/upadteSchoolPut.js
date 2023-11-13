@@ -7,19 +7,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { db } from '../config.js';
-export function saveSchool(school) {
+import { db } from "../config.js";
+export function updateSchoolPut(schoolUpdated) {
     return __awaiter(this, void 0, void 0, function* () {
-        const queryString = `INSERT INTO School(name) VALUES ("${school.name}")`;
-        let returnedId;
+        const queryString = `UPDATE School SET name="${schoolUpdated.name}", created_at="${schoolUpdated.createdAt}", updated_at= NOW() WHERE id=${schoolUpdated.id};`;
+        let updatedRows = 0;
         try {
             const [result] = yield db.promise().query(queryString);
-            returnedId = result.insertId;
+            updatedRows = result.affectedRows;
         }
         catch (error) {
-            console.error(error);
-            returnedId = 0;
+            console.log(error);
         }
-        return returnedId;
+        return updatedRows;
     });
 }

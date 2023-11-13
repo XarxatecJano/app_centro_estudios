@@ -7,19 +7,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { db } from '../config.js';
-export function saveSchool(school) {
+import { db } from "../config.js";
+export function findSchools() {
     return __awaiter(this, void 0, void 0, function* () {
-        const queryString = `INSERT INTO School(name) VALUES ("${school.name}")`;
-        let returnedId;
+        const queryString = `SELECT * FROM School`;
+        let schoolsReturned = [];
         try {
             const [result] = yield db.promise().query(queryString);
-            returnedId = result.insertId;
+            schoolsReturned = result.map(row => {
+                return Object.assign({}, row);
+            });
         }
         catch (error) {
             console.error(error);
-            returnedId = 0;
         }
-        return returnedId;
+        ;
+        return schoolsReturned;
     });
 }
