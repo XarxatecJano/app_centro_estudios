@@ -1,0 +1,11 @@
+<p>Listado escuelas:</p>
+{{#if schools}}
+    <ul>
+        {{#each schools}}
+            <li id="school-{{this.id}}">{{this.name}}</li>
+        {{/each}}
+    </ul>
+{{else}}
+    <p>No se recuperaron datos de escuelas</p>
+{{/if}}
+
