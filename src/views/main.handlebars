@@ -1,10 +1,16 @@
 <p>Listado escuelas:</p>
 {{#if schools}}
-    <ul>
+    <form>
         {{#each schools}}
-            <li id="school-{{this.id}}">{{this.name}}</li>
+            <p>
+                <input id="schoolName-{{this.id}}" value="{{this.name}}">
+                <button class="deleteSchool" id="delete{{this.name}}" value="{{this.id}}">Eliminar</button>
+            </p>
         {{/each}}
-    </ul>
+        <p>
+            <input type="submit">
+        </p>
+    </form>
 {{else}}
     <p>No se recuperaron datos de escuelas</p>
 {{/if}}
