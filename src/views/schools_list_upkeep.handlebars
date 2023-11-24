@@ -4,6 +4,7 @@
         {{#each schools}}
             <p>
                 <input id="schoolName-{{this.id}}" value="{{this.name}}">
+                <button class="updateSchool" id="update{{this.name}}" value="{{this.id}}">Actualizar</button>
                 <button class="deleteSchool" id="delete{{this.name}}" value="{{this.id}}">Eliminar</button>
             </p>
         {{/each}}

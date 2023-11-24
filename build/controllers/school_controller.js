@@ -28,7 +28,7 @@ export function getSchools(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const schoolsReturned = yield findSchools();
         if (schoolsReturned)
-            res.status(200).render('main', { layout: 'layout1', schools: schoolsReturned });
+            res.status(200).render('schools_list_upkeep', { layout: 'layout1', schools: schoolsReturned });
         else
             res.status(400).json({ "error": "no se pudo realizar la consulta" });
     });

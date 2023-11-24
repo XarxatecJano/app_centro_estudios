@@ -17,7 +17,7 @@ export async function postSchool(req: Express.Request, res: Express.Response){
 
 export async function getSchools(req: Express.Request, res: Express.Response){
     const schoolsReturned:School[] = await findSchools();
-    if(schoolsReturned) res.status(200).render('main', {layout: 'layout1', schools: schoolsReturned });
+    if(schoolsReturned) res.status(200).render('schools_list_upkeep', {layout: 'layout1', schools: schoolsReturned });
     else res.status(400).json({"error": "no se pudo realizar la consulta"});
 
 }
