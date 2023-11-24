@@ -16,6 +16,7 @@ app.use(Express.static(path.join(__dirname, "..", "public")));
 app.use("/scripts", Express.static(path.join(__dirname, '..', 'build')));
 app.use(cors());
 dotenv.config({ path: path.join(__dirname, "..", ".env") });
+app.use(Express.json());
 app.use(Express.urlencoded({ extended: false }));
 app.use(methodOverride((req, res) => {
     if (req.body && typeof req.body === 'object' && "_method" in req.body) {
