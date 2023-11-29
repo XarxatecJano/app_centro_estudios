@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles/style.css" />
+    <title>Estudiante</title>
+  </head>
+  <body>
+    
+    <h1>Añadir Estudiante</h1>
+
+    <form action="/api/v1/users" method="POST">
+      <p>
+        <div class="form-group">
+        <label for="studentNickname">Apodo usuario: </label>
+        <input type="text" name="username" id="studentNickname" required/>
+        </div>
+        <div class="form-group">
+        <label for="studentPassword">Contraseña: </label>
+        <!-- TO-DO: pattern para password-->
+        <!--<input type="password" name="password" id="studentPassword" pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%&=])[A-Za-z\d@#$%&=]{8,}$/"required/>-->
+        <input type="password" name="password" id="studentPassword" required/>
+
+      </div>
+    <div class="form-group">
+        <label for="studentName">Nombre usuario: </label>
+        <input type="text" name="name" id="studentName" required/>
+    </div>
+    <div class="form-group">
+        <label for="studentSurname">Primer apellido: </label>
+        <input type="text" name="first_surname" id="studentSurname" required/>
+    </div>
+    <div class="form-group">
+        <label for="studentSecondSurname">Segundo apellido: </label>
+        <input type="text" name="second_surname" id="studentSecondSurname"/>
+    </div>
+    <div class="form-group">
+        <label for="studentPhone">Teléfono usuario: </label>
+        <input type="number" name="phone" id="studentPhone" />
+    </div>
+    <div class="form-group">
+        <label for="studentMail">Correo electrónico usuario: </label>
+        <input type="text" name="mail" id="studentMail" />
+    </div>
+    <div class="form-group">
+        <label for="role">Rol usuario:</label>
+        <select name="role">
+          <option value="Admin">Administrador</option>
+          <option value="Student" selected>Alumno</option>
+          <option value="Teacher">Profesor</option>
+        </select>
+    </div>
+    <!--<div class="form-group">
+        <label for="passwordResetToken"
+          >Token para cambio de contraseña:
+        </label>
+        <input type="text"v name="password_reset_token" id="passwordResetToken"/>
+    </div>-->
+    <div class="form-group">
+        <label for="status">Estado usuario:</label>
+        <select name="status">
+          <option value="Active" selected>Activo</option>
+          <option value="Inactive">Inactivo</option>
+          </select>
+        </div>
+       <!--<div class="form-group">
+        <label for="avatarString">Avatar: </label>
+        <input type="text" name="avatar" id="avatarString" />
+    </div>--> 
+   <!-- <div class="form-group">
+        <label for="fileUrl">Añadir archivo: </label>
+        <input type="text" name="info_file_url" id="fileUrl" />
+    </div>-->
+      </p>
+      <div class="form-button">
+        <input type="submit" value="Enviar" />
+      </div>
+    </form>
+  </body>
+</html>

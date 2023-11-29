@@ -6,6 +6,14 @@ import * as dotenv from 'dotenv';
 import cors from 'cors';
 import methodOverride from 'method-override';
 import { ExpressHandlebars, engine } from 'express-handlebars';
+import Session from 'express-session';
+import { sessionStore } from './configSessionStore.js';
+
+declare module 'express-session' {
+    interface SessionData {
+        token:string
+    }
+}
 
 const app: Express.Application = Express();
 
@@ -15,6 +23,19 @@ const __dirname = path.dirname(__filename);
 app.set('view engine', 'handlebars');
 app.set('views',path.join(__dirname, '..', 'src/views'));
 app.engine('handlebars', engine({layoutsDir: path.join(__dirname, '..', 'src/views/layouts'),}));
+
+
+app.use(Session({
+    name: "sessionApiCE",
+    resave: false,
+    saveUninitialized: false,
+    store: sessionStore,
+    secret: process.env.SESSION_SECRET as string,
+    cookie: {
+        maxAge: 24 * 60 * 60 * 1000,
+        sameSite: true
+    }
+}))
 
 app.use(Express.static(path.join(__dirname, "..", "public")));
 app.use("/scripts", Express.static(path.join(__dirname, '..', 'build')));
@@ -33,6 +54,8 @@ app.use(methodOverride((req: Express.Request, res: Express.Response)=>{
         return method;
     }
 }));
+
+
 
 app.use("/", router);
 

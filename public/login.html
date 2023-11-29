@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/style.css" />
+    <title>Login</title>
+</head>
+<body>
+    <p>
+        <form action="/api/v1/users/login" method="POST">
+            <p>
+                <label for="username-input">Usuario: </label>
+                <input type="text" name="username" id="username-input">
+            </p>
+            <p>
+                <label for="pwd-input">Password: </label>
+                <input type="password" name="password" id="pwd-input">
+            </p>
+            <p>
+                <input type="submit" value="Enviar">
+            </p>
+        </form>
+    </p>
+</body>
+</html>
