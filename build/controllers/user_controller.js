@@ -48,18 +48,17 @@ export function logUser(req, res) {
         const user = yield findUser(req.body.username);
         if (user) {
             const isMatch = yield bcrypt.compare(req.body.password, user.password);
-            console.log(isMatch);
             if (isMatch) {
                 const token = jsonwebtoken.sign({ "user": user.username, "role": user.role, "id": user.id }, process.env.SESSION_SECRET);
                 req.session.token = token;
-                res.status(200).json(token);
+                res.status(200).render('logged', { layout: false, user: user });
             }
             else {
-                res.status(404).json({ "error": "el password es incorrecto" });
+                res.status(401).json({ "error": "el password es incorrecto" });
             }
         }
         else {
-            res.status(401).json({ "error": "no se encontró ningún usuario" });
+            res.status(404).json({ "error": "no se encontró ningún usuario" });
         }
     });
 }

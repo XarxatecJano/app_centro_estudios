@@ -28,3 +28,9 @@ export interface User{
 }
 
 export type UserPartial = Pick<User, 'username', 'password', 'name', 'first_surname', 'second_surname', 'phone', 'mail', 'role', 'status'>;
+
+export interface jwUserToken {
+    id: number,
+    user: string,
+    role: string
+}

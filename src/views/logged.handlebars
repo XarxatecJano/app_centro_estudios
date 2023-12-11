@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User logged</title>
+</head>
+<body>
+    {{#if user}}
+        <p>Bienvenid@ {{user.username}}</p>
+        <p><a href="https://localhost:3000/logOut">Log out</a></p>
+    {{/if}}
+</body>
+</html>
