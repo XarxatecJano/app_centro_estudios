@@ -57,3 +57,11 @@ export async function logOutUser(req: Express.Request, res: Express.Response){
             }
    });
 }
+
+export async function userRecovery(req: Express.Request, res: Express.Response){
+   // TODO: function de comprobación de existencia de email y envío de mail para cambio de credenciales
+}
+
+export async function changeUserPassword(req: Express.Request, res: Express.Response){
+    // TODO: function de actualización del password del usuario y redirección a login con notificación de éxito
+}
