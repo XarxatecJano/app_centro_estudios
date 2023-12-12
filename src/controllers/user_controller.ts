@@ -48,5 +48,12 @@ export async function logUser(req:Express.Request, res: Express.Response){
 }
 
 export async function logOutUser(req: Express.Request, res: Express.Response){
-    
+  req.session.destroy((error)=>{
+            if (error) {
+                res.status(500).json({"error": "No se pudo destruir la sesión"});
+            } else {
+                res.status(200).clearCookie("sessionApiCE");
+                res.redirect("/login.html");
+            }
+   });
 }

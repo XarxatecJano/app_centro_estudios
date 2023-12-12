@@ -5,7 +5,10 @@ const routerUser: Express.Router = Express.Router();
 
 routerUser.post("/", postUser);
 routerUser.post("/login", logUser);
+routerUser.get("/logOut", logOutUser);
 routerUser.get("/:username", getUserWithUsername);
-routerUser.get("/logOut", logOutUser)
+
+
+
 
 export {routerUser};

@@ -62,3 +62,21 @@ export function logUser(req, res) {
         }
     });
 }
+export function logOutUser(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            req.session.destroy((error) => {
+                if (error) {
+                    res.status(500).json({ "error": "No se pudo destruir la sesión" });
+                }
+                else {
+                    res.status(200).clearCookie("sessionApiCE");
+                    res.redirect("/login.html");
+                }
+            });
+        }
+        catch (error) {
+            console.error(error);
+        }
+    });
+}
