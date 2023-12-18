@@ -47,6 +47,7 @@ export async function updateSchoolPartial(req: Express.Request, res: Express.Res
     if (updateResponse==1) res.status(200).json({"message": `El registro ${schoolData.id} se actualizó con éxito`});
     else res.status(400).json({"error": "no se pudo actualizar el registro"});
 }
+
 /*
     const updateFields = req.body; 
     const queryParts = ``;

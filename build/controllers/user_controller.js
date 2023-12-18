@@ -80,12 +80,13 @@ export function userRecovery(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const user = yield findUser('mail', req.body.email);
         if (user) {
+            console.log(user);
             const mail = {
                 from: process.env.SMTP_USER,
                 to: `${req.body.email}`,
                 subject: "Recuperación de password Centro de estudios",
                 //text: "Mail de prueba"
-                html: "<html><body><p>Por favor, haga click en el siguiente <a href='http://localhost:3000/renew_password.html' target='blank'>enlace</a> para introducir un password nuevo</p></body></html>"
+                html: `<html><body><p>Por favor, haga click en el siguiente <a href='http://localhost:3000/api/v1/users/recovery/${user.username}' target='blank'>enlace</a> para introducir un password nuevo</p></body></html>`
             };
             transporter.sendMail(mail, (err, info) => {
                 if (err) {
@@ -101,8 +102,8 @@ export function userRecovery(req, res) {
         }
     });
 }
-export function changeUserPassword(req, res) {
+export function setNewPassword(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        // TODO: function de actualización del password del usuario y redirección a login con notificación de éxito
+        res.status(200).render("renew_password", { layout: false, username: req.params.username });
     });
 }
