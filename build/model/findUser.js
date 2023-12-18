@@ -8,9 +8,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { db } from "../config.js";
-export function findUser(username) {
+export function findUser(field, value) {
     return __awaiter(this, void 0, void 0, function* () {
-        const queryString = `SELECT * FROM User WHERE username="${username}"`;
+        //username
+        const queryString = `SELECT * FROM User WHERE ${field}="${value}"`;
         let userReturned = null;
         try {
             const [result] = yield db.promise().query(queryString);

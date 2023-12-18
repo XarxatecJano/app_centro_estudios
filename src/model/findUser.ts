@@ -4,8 +4,9 @@ import { RowDataPacket } from "mysql2";
 import bcrypt from 'bcrypt';
 import jsonwebtoken from 'jsonwebtoken';
 
-export async function findUser(username:string):Promise<User|null>{
-    const queryString = `SELECT * FROM User WHERE username="${username}"`;
+export async function findUser(field:string, value:string):Promise<User|null>{
+    //username
+    const queryString = `SELECT * FROM User WHERE ${field}="${value}"`;
     let userReturned: User | null = null;
     try{
         const [result] = await db.promise().query<RowDataPacket[]>(queryString);

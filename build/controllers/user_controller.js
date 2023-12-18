@@ -37,7 +37,7 @@ export function postUser(req, res) {
 }
 export function getUserWithUsername(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const user = yield findUser(req.params.username);
+        const user = yield findUser('username', req.params.username);
         if (user)
             res.status(200).json(user);
         else
@@ -46,7 +46,7 @@ export function getUserWithUsername(req, res) {
 }
 export function logUser(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const user = yield findUser(req.body.username);
+        const user = yield findUser('username', req.body.username);
         if (user) {
             const isMatch = yield bcrypt.compare(req.body.password, user.password);
             if (isMatch) {
@@ -78,22 +78,27 @@ export function logOutUser(req, res) {
 }
 export function userRecovery(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        //comprar que existe el mail en nuestra tabla de usuarios
-        const mail = {
-            from: process.env.SMTP_USER,
-            to: `${req.body.email}`,
-            subject: "Recuperación de password Centro de estudios",
-            //text: "Mail de prueba"
-            html: "<html><body><p><a href='https://www.xarxatecactiva.com' target='blank'>Enlace</a></p></body></html>"
-        };
-        transporter.sendMail(mail, (err, info) => {
-            if (err) {
-                res.status(500).json({ "error": "no se pudo mandar el email" });
-            }
-            else {
-                res.status(200).json(req.body);
-            }
-        });
+        const user = yield findUser('mail', req.body.email);
+        if (user) {
+            const mail = {
+                from: process.env.SMTP_USER,
+                to: `${req.body.email}`,
+                subject: "Recuperación de password Centro de estudios",
+                //text: "Mail de prueba"
+                html: "<html><body><p>Por favor, haga click en el siguiente <a href='http://localhost:3000/renew_password.html' target='blank'>enlace</a> para introducir un password nuevo</p></body></html>"
+            };
+            transporter.sendMail(mail, (err, info) => {
+                if (err) {
+                    res.status(500).json({ "error": "no se pudo mandar el email" });
+                }
+                else {
+                    res.status(200).json(req.body);
+                }
+            });
+        }
+        else {
+            res.status(404).json({ "error": "no se encontró ningún usuario con ese email registrado." });
+        }
     });
 }
 export function changeUserPassword(req, res) {

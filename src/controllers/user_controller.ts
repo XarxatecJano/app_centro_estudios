@@ -26,14 +26,16 @@ export async function postUser(req:Express.Request, res: Express.Response){
 }
 
 export async function getUserWithUsername(req:Express.Request, res: Express.Response){
-    const user:User|null = await findUser(req.params.username);
+    const user:User|null = await findUser('username', req.params.username);
     if (user) res.status(200).json(user);
     else res.status(404).json({"error": "no se encontró el usuario"});
 }
 
+
+
 export async function logUser(req:Express.Request, res: Express.Response){
     
-    const user: User | null = await findUser(req.body.username);
+    const user: User | null = await findUser('username', req.body.username);
     if (user){
         const isMatch = await bcrypt.compare(req.body.password, user.password);
         if (isMatch){
@@ -59,22 +61,28 @@ export async function logOutUser(req: Express.Request, res: Express.Response){
    });
 }
 
+
 export async function userRecovery(req: Express.Request, res: Express.Response){
-    //comprar que existe el mail en nuestra tabla de usuarios
-    const mail = {
-        from: process.env.SMTP_USER,
-        to: `${req.body.email}`,
-        subject: "Recuperación de password Centro de estudios",
-        //text: "Mail de prueba"
-        html: "<html><body><p><a href='https://www.xarxatecactiva.com' target='blank'>Enlace</a></p></body></html>"
-    }  
-    transporter.sendMail(mail, (err, info) => {
-        if (err) {
-            res.status(500).json({"error": "no se pudo mandar el email"});
-        } else {
-            res.status(200).json(req.body);
-        }
-    })  
+    const user:User|null = await findUser('mail', req.body.email);
+    if (user){
+        const mail = {
+            from: process.env.SMTP_USER,
+            to: `${req.body.email}`,
+            subject: "Recuperación de password Centro de estudios",
+            //text: "Mail de prueba"
+            html: "<html><body><p>Por favor, haga click en el siguiente <a href='http://localhost:3000/renew_password.html' target='blank'>enlace</a> para introducir un password nuevo</p></body></html>"
+        }  
+        transporter.sendMail(mail, (err, info) => {
+            if (err) {
+                res.status(500).json({"error": "no se pudo mandar el email"});
+            } else {
+                res.status(200).json(req.body);
+            }
+        }) 
+    } else {
+        res.status(404).json({"error": "no se encontró ningún usuario con ese email registrado."})
+    }
+     
 }
 
 export async function changeUserPassword(req: Express.Request, res: Express.Response){
