@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import { saveUser } from '../model/saveUser.js';
 import { findUser } from '../model/findUser.js';
+import { updateUserPasswordWithPatch } from '../model/patchUserPassword.js';
 import bcrypt from 'bcrypt';
 import jsonwebtoken from 'jsonwebtoken';
 import { transporter } from '../configNodemailer.js';
@@ -80,7 +81,6 @@ export function userRecovery(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const user = yield findUser('mail', req.body.email);
         if (user) {
-            console.log(user);
             const mail = {
                 from: process.env.SMTP_USER,
                 to: `${req.body.email}`,
@@ -104,7 +104,16 @@ export function userRecovery(req, res) {
 }
 export function setNewPassword(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log(req.params.username);
         res.status(200).render("renew_password", { layout: false, username: req.params.username });
+    });
+}
+export function changeUserPassword(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const userPartial = { username: req.body.username, password: req.body.new_password };
+        const patchResponse = yield updateUserPasswordWithPatch(userPartial);
+        if (patchResponse == 1)
+            res.status(200).json({ "message": `El usuario ${userPartial.username} actualizó su password con éxito` });
+        else
+            res.status(400).json({ "error": "no se pudo actualizar el registro" });
     });
 }

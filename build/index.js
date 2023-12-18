@@ -34,6 +34,7 @@ app.use(Express.urlencoded({ extended: false }));
 app.use(methodOverride((req, res) => {
     if (req.body && typeof req.body === 'object' && "_method" in req.body) {
         const method = req.body._method;
+        console.log(method);
         delete req.body._method;
         return method;
     }

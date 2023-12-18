@@ -1,7 +1,8 @@
 import Express from 'express';
-import { User, UserPartial } from '../types.js';
+import { User, UserPartial, UserPasswordPartial } from '../types.js';
 import { saveUser} from '../model/saveUser.js';
 import { findUser } from '../model/findUser.js';
+import { updateUserPasswordWithPatch } from '../model/patchUserPassword.js';
 import bcrypt from 'bcrypt';
 import jsonwebtoken from 'jsonwebtoken';
 import { transporter } from '../configNodemailer.js';
@@ -65,7 +66,6 @@ export async function logOutUser(req: Express.Request, res: Express.Response){
 export async function userRecovery(req: Express.Request, res: Express.Response){
     const user:User|null = await findUser('mail', req.body.email);
     if (user){
-        console.log(user);
         const mail = {
             from: process.env.SMTP_USER,
             to: `${req.body.email}`,
@@ -88,6 +88,13 @@ export async function userRecovery(req: Express.Request, res: Express.Response){
 
 
 export async function setNewPassword(req: Express.Request, res: Express.Response){
-    console.log(req.params.username);
     res.status(200).render("renew_password", {layout: false, username: req.params.username});
+}
+
+export async function changeUserPassword(req: Express.Request, res: Express.Response){
+
+    const userPartial:UserPasswordPartial = {username: req.body.username, password: req.body.new_password};
+    const patchResponse: number = await updateUserPasswordWithPatch(userPartial);
+    if (patchResponse==1) res.status(200).json({"message": `El usuario ${userPartial.username} actualizó su password con éxito`});
+    else res.status(400).json({"error": "no se pudo actualizar el registro"});
 }
