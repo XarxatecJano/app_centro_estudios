@@ -11,6 +11,7 @@ import { saveUser } from '../model/saveUser.js';
 import { findUser } from '../model/findUser.js';
 import bcrypt from 'bcrypt';
 import jsonwebtoken from 'jsonwebtoken';
+import { transporter } from '../configNodemailer.js';
 export function postUser(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         let user = {
@@ -64,19 +65,39 @@ export function logUser(req, res) {
 }
 export function logOutUser(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        try {
-            req.session.destroy((error) => {
-                if (error) {
-                    res.status(500).json({ "error": "No se pudo destruir la sesión" });
-                }
-                else {
-                    res.status(200).clearCookie("sessionApiCE");
-                    res.redirect("/login.html");
-                }
-            });
-        }
-        catch (error) {
-            console.error(error);
-        }
+        req.session.destroy((error) => {
+            if (error) {
+                res.status(500).json({ "error": "No se pudo destruir la sesión" });
+            }
+            else {
+                res.status(200).clearCookie("sessionApiCE");
+                res.redirect("/login.html");
+            }
+        });
+    });
+}
+export function userRecovery(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        //comprar que existe el mail en nuestra tabla de usuarios
+        const mail = {
+            from: process.env.SMTP_USER,
+            to: `${req.body.email}`,
+            subject: "Recuperación de password Centro de estudios",
+            //text: "Mail de prueba"
+            html: "<html><body><p><a href='https://www.xarxatecactiva.com' target='blank'>Enlace</a></p></body></html>"
+        };
+        transporter.sendMail(mail, (err, info) => {
+            if (err) {
+                res.status(500).json({ "error": "no se pudo mandar el email" });
+            }
+            else {
+                res.status(200).json(req.body);
+            }
+        });
+    });
+}
+export function changeUserPassword(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        // TODO: function de actualización del password del usuario y redirección a login con notificación de éxito
     });
 }

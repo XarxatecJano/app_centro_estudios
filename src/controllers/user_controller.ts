@@ -4,6 +4,7 @@ import { saveUser} from '../model/saveUser.js';
 import { findUser } from '../model/findUser.js';
 import bcrypt from 'bcrypt';
 import jsonwebtoken from 'jsonwebtoken';
+import { transporter } from '../configNodemailer.js';
 
 export async function postUser(req:Express.Request, res: Express.Response){
     let user: UserPartial = {
@@ -59,7 +60,21 @@ export async function logOutUser(req: Express.Request, res: Express.Response){
 }
 
 export async function userRecovery(req: Express.Request, res: Express.Response){
-   // TODO: function de comprobación de existencia de email y envío de mail para cambio de credenciales
+    //comprar que existe el mail en nuestra tabla de usuarios
+    const mail = {
+        from: process.env.SMTP_USER,
+        to: `${req.body.email}`,
+        subject: "Recuperación de password Centro de estudios",
+        //text: "Mail de prueba"
+        html: "<html><body><p><a href='https://www.xarxatecactiva.com' target='blank'>Enlace</a></p></body></html>"
+    }  
+    transporter.sendMail(mail, (err, info) => {
+        if (err) {
+            res.status(500).json({"error": "no se pudo mandar el email"});
+        } else {
+            res.status(200).json(req.body);
+        }
+    })  
 }
 
 export async function changeUserPassword(req: Express.Request, res: Express.Response){

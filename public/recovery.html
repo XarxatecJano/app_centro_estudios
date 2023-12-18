@@ -7,7 +7,7 @@
 </head>
 <body>
     <p>Si has olvidado tu contraseña o cuenta de usuario, por favor rellena el siguiente formulario con la dirección email con la que te registraste:</p>
-    <form action="/recovery" method="POST">
+    <form action="/api/v1/users/recovery" method="POST">
         <p>
             <label for="user_email">Email: </label>
             <input type="mail" id="user_email" name="email">
