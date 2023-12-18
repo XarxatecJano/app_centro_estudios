@@ -88,5 +88,6 @@ export async function userRecovery(req: Express.Request, res: Express.Response){
 
 
 export async function setNewPassword(req: Express.Request, res: Express.Response){
+    console.log(req.params.username);
     res.status(200).render("renew_password", {layout: false, username: req.params.username});
 }

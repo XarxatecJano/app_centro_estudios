@@ -104,6 +104,7 @@ export function userRecovery(req, res) {
 }
 export function setNewPassword(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log(req.params.username);
         res.status(200).render("renew_password", { layout: false, username: req.params.username });
     });
 }

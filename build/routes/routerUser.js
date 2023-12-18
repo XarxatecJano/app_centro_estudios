@@ -4,7 +4,7 @@ const routerUser = Express.Router();
 routerUser.post("/", postUser);
 routerUser.post("/login", logUser);
 routerUser.post("/recovery", userRecovery);
-routerUser.get("/recovery/:email", setNewPassword);
+routerUser.get("/recovery/:username", setNewPassword);
 //routerUser.patch("/newPassword", changeUserPassword);
 routerUser.get("/logOut", logOutUser);
 routerUser.get("/:username", getUserWithUsername);
