@@ -109,7 +109,9 @@ export function setNewPassword(req, res) {
 }
 export function changeUserPassword(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const userPartial = { username: req.body.username, password: req.body.new_password };
+        const saltRounds = 10;
+        const hashedPassword = yield bcrypt.hash(req.body.new_password, saltRounds);
+        const userPartial = { username: req.body.username, password: hashedPassword };
         const patchResponse = yield updateUserPasswordWithPatch(userPartial);
         if (patchResponse == 1)
             res.status(200).json({ "message": `El usuario ${userPartial.username} actualizó su password con éxito` });

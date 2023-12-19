@@ -92,8 +92,9 @@ export async function setNewPassword(req: Express.Request, res: Express.Response
 }
 
 export async function changeUserPassword(req: Express.Request, res: Express.Response){
-
-    const userPartial:UserPasswordPartial = {username: req.body.username, password: req.body.new_password};
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(req.body.new_password, saltRounds);
+    const userPartial:UserPasswordPartial = {username: req.body.username, password: hashedPassword};
     const patchResponse: number = await updateUserPasswordWithPatch(userPartial);
     if (patchResponse==1) res.status(200).json({"message": `El usuario ${userPartial.username} actualizó su password con éxito`});
     else res.status(400).json({"error": "no se pudo actualizar el registro"});
