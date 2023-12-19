@@ -53,7 +53,7 @@ export function logUser(req, res) {
             if (isMatch) {
                 const token = jsonwebtoken.sign({ "user": user.username, "role": user.role, "id": user.id }, process.env.SESSION_SECRET);
                 req.session.token = token;
-                res.status(200).render('logged', { layout: false, user: user });
+                res.status(200).render('logged', { layout: false, user: user, domain: process.env.DOMAIN });
             }
             else {
                 res.status(401).json({ "error": "el password es incorrecto" });
@@ -86,7 +86,7 @@ export function userRecovery(req, res) {
                 to: `${req.body.email}`,
                 subject: "Recuperación de password Centro de estudios",
                 //text: "Mail de prueba"
-                html: `<html><body><p>Por favor, haga click en el siguiente <a href='http://localhost:3000/api/v1/users/recovery/${user.username}' target='blank'>enlace</a> para introducir un password nuevo</p></body></html>`
+                html: `<html><body><p>Por favor, haga click en el siguiente <a href='${process.env.DOMAIN}/api/v1/users/recovery/${user.username}' target='blank'>enlace</a> para introducir un password nuevo</p></body></html>`
             };
             transporter.sendMail(mail, (err, info) => {
                 if (err) {
@@ -104,7 +104,7 @@ export function userRecovery(req, res) {
 }
 export function setNewPassword(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        res.status(200).render("renew_password", { layout: false, username: req.params.username });
+        res.status(200).render("renew_password", { layout: false, username: req.params.username, domain: process.env.DOMAIN });
     });
 }
 export function changeUserPassword(req, res) {

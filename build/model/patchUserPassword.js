@@ -11,7 +11,6 @@ import { db } from "../config.js";
 export function updateUserPasswordWithPatch(userData) {
     return __awaiter(this, void 0, void 0, function* () {
         const queryString = `UPDATE User SET password="${userData.password}", updated_at= NOW() WHERE username="${userData.username}";`;
-        console.log(queryString);
         let updatedRows = 0;
         try {
             const [result] = yield db.promise().query(queryString);
